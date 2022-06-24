@@ -12,12 +12,23 @@ function handleWeather () {
     search.addEventListener('keydown', e=> {
         if (e.keyCode === 13 ) {
             changeWeather(search.value.trim());
-        }
-    })
+            search.value = '';
+        };
+    });
 }
 async function changeWeather(input) {
     let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${input}&units=metric&appid=d78fd1588e1b7c0c2813576ba183a667`;
     let data = await fetch(apiUrl).then(res=>res.json());
+    if(data.cod == '404') {
+        city.innerText = "";
+        country.innerText = "Not Found";
+        temperature.innerText = '';
+        shortDesc.innerText = 'error';
+        visibility.innerText = 'error' + "(m)";
+        wind.innerText = 'error' + "(m/s)";
+        sun.innerText
+        return;
+    };
     let statusWeather = Math.round(data.main.temp);
     city.innerText = data.name;
     country.innerText = data.sys.country;
